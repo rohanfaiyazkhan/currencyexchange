@@ -1,29 +1,47 @@
-import React, { Fragment, useState } from 'react'
-import axios from 'axios'
+import React, { Fragment, useState } from 'react';
+import axios from 'axios';
 
 const Converter = () => {
-	const [value, setValue] = useState('')
+	const [ formData, setformData ] = useState({
+		from: '',
+		amount: '',
+		to: ''
+	});
+	const [ result, setResult ] = useState('');
 
-	const [result, setResult] = useState('')
+	const onChange = (e) => setformData({ ...formData, [e.target.name]: e.target.value });
 
-	const onClick = async () => {
-		if (value) {
+	const onSubmit = async (e) => {
+		e.preventDefault();
+		const { from, amount, to } = formData;
+
+		if (from && amount && to) {
+			const querySlug = from + '_' + to;
 			const res = await axios.get(
-				'https://free.currconv.com/api/v7/convert?q=BDT_USD&apiKey=4572df44652d2005247c'
-			)
-			const exchangeRate = res.data.results['BDT_USD'].val
-			console.log(exchangeRate)
-			setResult(exchangeRate * value)
+				`https://free.currconv.com/api/v7/convert?q=${querySlug}&apiKey=4572df44652d2005247c`
+			);
+			const exchangeRate = res.data.results[querySlug].val;
+			setResult(exchangeRate * amount);
 		}
-	}
+	};
 
 	return (
 		<Fragment>
-			<input placeholder="Amount" value={value} onChange={e => setValue(e.target.value)} />
-			<button onClick={onClick}>Convert</button>
-			{result && <p>{result}</p>}
+			<form onSubmit={onSubmit}>
+				<input placeholder="From" list="currencies" name="from" value={formData.from} onChange={onChange} />
+				<datalist id="currencies">
+					<option value="USD" />
+					<option value="BDT" />
+					<option value="PHP" />
+					<option value="MYR" />
+				</datalist>
+				<input placeholder="Amount" name="amount" value={formData.amount} onChange={onChange} />
+				<input placeholder="To" list="currencies" name="to" value={formData.to} onChange={onChange} />
+				<button type="submit">Convert</button>
+				{result && <p>{result}</p>}
+			</form>
 		</Fragment>
-	)
-}
+	);
+};
 
-export default Converter
+export default Converter;
