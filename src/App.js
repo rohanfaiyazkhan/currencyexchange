@@ -1,6 +1,6 @@
-import React from 'react'
-import Converter from './Converter'
+import React from 'react';
+import Converter from './components/Converter';
 
-const App = () => <Converter />
+const App = () => <Converter />;
 
-export default App
+export default App;

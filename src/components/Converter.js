@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import currencyList from '../data/currencyList';
 import axios from 'axios';
 
 const Converter = () => {
@@ -30,10 +31,11 @@ const Converter = () => {
 			<form onSubmit={onSubmit}>
 				<input placeholder="From" list="currencies" name="from" value={formData.from} onChange={onChange} />
 				<datalist id="currencies">
-					<option value="USD" />
-					<option value="BDT" />
-					<option value="PHP" />
-					<option value="MYR" />
+					{currencyList.map((currency) => (
+						<option id={currency.id} value={currency.id}>
+							{currency.currencyName}
+						</option>
+					))}
 				</datalist>
 				<input placeholder="Amount" name="amount" value={formData.amount} onChange={onChange} />
 				<input placeholder="To" list="currencies" name="to" value={formData.to} onChange={onChange} />
