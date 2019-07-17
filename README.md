@@ -1,4 +1,4 @@
-Simple currency converter app built in React. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Simple currency converter app built in React. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and [Free Currency Converter API](https://free.currencyconverterapi.com/). The demo is hosted on [Netlify](https://agitated-minsky-d1cd43.netlify.com/).
 
 ## Available Scripts
 
