@@ -8,8 +8,8 @@ const ResultHistory = ({ resultHistory }) => {
 				<Fragment>
 					<h3>Result History</h3>
 					<ol className="result-history">
-						{resultHistory.map(result => (
-							<li>
+						{resultHistory.map((result, index) => (
+							<li key={index}>
 								{result.amount + ' ' + result.from} <img src="arrow-right.svg" width="24px" />{' '}
 								{result.result + ' ' + result.to}
 							</li>

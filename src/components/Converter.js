@@ -26,7 +26,6 @@ const Converter = () => {
 	const onSubmit = async e => {
 		e.preventDefault()
 		const { from, amount, to } = formData
-		console.log(typeof amount)
 
 		if (!from || !to || !amount) {
 			return setError('Please enter all fields')
@@ -36,7 +35,7 @@ const Converter = () => {
 			return setError('Please enter a valid currency')
 		}
 
-		if (!(typeof amount === 'number')) {
+		if (isNaN(amount)) {
 			return setError('Please enter a number as the amount')
 		}
 
