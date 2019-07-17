@@ -4,7 +4,8 @@ import './styles/App.scss'
 
 const App = () => {
 	return (
-		<div className="wl-70 wm-80 ws-90">
+		<div className="wl-75 wm-80 ws-90 wxs-95">
+			<h1>Currency Converter</h1>
 			<Converter />
 		</div>
 	)

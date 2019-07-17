@@ -14,6 +14,8 @@ const Converter = () => {
 	const [result, setResult] = useState('')
 	const [resultHistory, setResultHistory] = useState([])
 
+	const [error, setError] = useState('')
+
 	const onChange = e => {
 		if (e.target.name === 'from' || e.target.name === 'to') {
 			e.target.value = e.target.value.toUpperCase()
@@ -24,8 +26,22 @@ const Converter = () => {
 	const onSubmit = async e => {
 		e.preventDefault()
 		const { from, amount, to } = formData
+		console.log(typeof amount)
+
+		if (!from || !to || !amount) {
+			return setError('Please enter all fields')
+		}
+
+		if (!currencyCodes.includes(from) || !currencyCodes.includes(to)) {
+			return setError('Please enter a valid currency')
+		}
+
+		if (!(typeof amount === 'number')) {
+			return setError('Please enter a number as the amount')
+		}
 
 		if (from && currencyCodes.includes(from) && to && currencyCodes.includes(to) && amount) {
+			setError('')
 			const querySlug = from + '_' + to
 			const res = await axios.get(
 				`https://free.currconv.com/api/v7/convert?q=${querySlug}&apiKey=4572df44652d2005247c`
@@ -39,7 +55,8 @@ const Converter = () => {
 
 	return (
 		<Fragment>
-			<form onSubmit={onSubmit}>
+			{error && <p className="error-message">{error}</p>}
+			<form className="l-fd-row xs-fd-col" onSubmit={onSubmit}>
 				<input placeholder="From" list="currencies" name="from" value={formData.from} onChange={onChange} />
 				<datalist id="currencies">
 					{currencyCodes.map(currency => (

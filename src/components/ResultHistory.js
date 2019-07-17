@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 const ResultHistory = ({ resultHistory }) => {
 	return (
-		<div>
-			{resultHistory.length > 0 &&
-				resultHistory.map((result, index) => (
-					<p key={index}>
-						{result.amount} {result.from} -> {result.to} = {result.result}
-					</p>
-				))}
-		</div>
+		<Fragment>
+			{resultHistory.length > 0 && (
+				<Fragment>
+					<h3>Result History</h3>
+					<ol className="result-history">
+						{resultHistory.map(result => (
+							<li>
+								{result.amount + ' ' + result.from} <img src="arrow-right.svg" width="24px" />{' '}
+								{result.result + ' ' + result.to}
+							</li>
+						))}
+					</ol>
+				</Fragment>
+			)}
+		</Fragment>
 	)
 }
 
