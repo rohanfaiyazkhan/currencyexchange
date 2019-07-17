@@ -6,17 +6,22 @@ import axios from 'axios'
 const Converter = () => {
 	const currencyCodes = Object.keys(currencyList)
 
-	const [ formData, setformData ] = useState({
+	const [formData, setformData] = useState({
 		from: '',
 		amount: '',
 		to: ''
 	})
-	const [ result, setResult ] = useState('')
-	const [ resultHistory, setResultHistory ] = useState([])
+	const [result, setResult] = useState('')
+	const [resultHistory, setResultHistory] = useState([])
 
-	const onChange = (e) => setformData({ ...formData, [e.target.name]: e.target.value })
+	const onChange = e => {
+		if (e.target.name === 'from' || e.target.name === 'to') {
+			e.target.value = e.target.value.toUpperCase()
+		}
+		setformData({ ...formData, [e.target.name]: e.target.value })
+	}
 
-	const onSubmit = async (e) => {
+	const onSubmit = async e => {
 		e.preventDefault()
 		const { from, amount, to } = formData
 
@@ -28,7 +33,7 @@ const Converter = () => {
 			const exchangeRate = res.data.results[querySlug].val
 			const exchangeResult = (exchangeRate * amount).toFixed(2)
 			setResult(exchangeResult)
-			setResultHistory([ ...resultHistory, { from, amount, to, result: exchangeResult } ])
+			setResultHistory([...resultHistory, { from, amount, to, result: exchangeResult }])
 		}
 	}
 
@@ -37,13 +42,23 @@ const Converter = () => {
 			<form onSubmit={onSubmit}>
 				<input placeholder="From" list="currencies" name="from" value={formData.from} onChange={onChange} />
 				<datalist id="currencies">
-					{currencyCodes.map((currency) => <option id={currency} key={currency} value={currency} />)}
+					{currencyCodes.map(currency => (
+						<option id={currency} key={currency} value={currency}>
+							{currency + ' (' + currencyList[currency].currencyName + ')'}
+						</option>
+					))}
 				</datalist>
 				<input placeholder="Amount" name="amount" value={formData.amount} onChange={onChange} />
 				<input placeholder="To" list="currencies" name="to" value={formData.to} onChange={onChange} />
 				<button type="submit">Convert</button>
-				{result && <p>{result}</p>}
 			</form>
+			<div className="result-container">
+				<p>
+					<label>Result</label>
+					{result && <span>{result}</span>}
+				</p>
+			</div>
+
 			<ResultHistory resultHistory={resultHistory} />
 		</Fragment>
 	)

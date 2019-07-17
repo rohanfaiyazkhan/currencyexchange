@@ -5,8 +5,8 @@ const ResultHistory = ({ resultHistory }) => {
 	return (
 		<div>
 			{resultHistory.length > 0 &&
-				resultHistory.map((result) => (
-					<p>
+				resultHistory.map((result, index) => (
+					<p key={index}>
 						{result.amount} {result.from} -> {result.to} = {result.result}
 					</p>
 				))}
